@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kawaii PanicX</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN for social media icons, hamburger, search -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+  <!-- Side Menu (Mobile Only) -->
+  <div class="side-menu" id="side-menu">
+    <button class="side-menu-close-btn" id="side-menu-close-btn">
+      <i class="fas fa-times"></i>
+    </button>
+    <ul>
+      <li>
+        <a data-route="/home">Home</a>
+      </li>
+      <li>
+        <a data-route="/news">News</a>
+      </li>
+      <li>
+        <a data-route="/recommendation">Recommendation</a>
+      </li>
+      <li><a href="https://animecountdown.com" target="_self">Upcoming Episode</a></li>
+      <li><a href="https://youtube.com/@kawaiipanicx?si=mM3CxzbTAX7O9igs" target="_blank">Youtube Chanel</a></li>
+    </ul>
+  </div>
+  
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="logo-container" id="logo-container">
+      <div class="logo-icon"></div>
+      <a data-route="/home" class="logo-text" id="logo-text">Kawaii PanicX</a>
+    </div>
+    
+    <!-- Desktop Search and Nav (visible on desktop/pad only) -->
+    <div class="desktop-header-elements" id="desktop-header-elements">
+      <div class="desktop-search-container">
+        <input type="text" placeholder="Search Function Hasn't Active Yet" class="search-input" id="desktop-search-input">
+        <button class="header-icon-btn" id="search-icon-btn-desktop">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <nav class="desktop-nav" id="desktop-nav">
+        <ul>
+          <li>
+            <a data-route="/home">Home</a>
+          </li>
+          <li>
+            <a data-route="/news">News</a>
+          </li>
+          <li>
+            <a data-route="/recommendation">Recommendation</a>
+          </li>
+          <li><a href="https://animecountdown.com" target="_self">Upcoming Episode</a></li>
+          <li><a href="https://youtube.com/@kawaiipanicx?si=mM3CxzbTAX7O9igs" target="_blank">Youtube Chanel</a></li>
+        </ul>
+      </nav>
+    </div>
+    
+    <!-- Mobile-specific controls (Search icon trigger, Hamburger) -->
+    <div class="mobile-controls-group" id="mobile-controls-group">
+      <button class="header-icon-btn" id="search-icon-btn-mobile-trigger">
+        <i class="fas fa-search"></i>
+      </button>
+      <button class="header-icon-btn hamburger-menu-btn" id="hamburger-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <!-- Mobile-specific search active state (hidden by default, shown on trigger) -->
+    <div class="mobile-search-active-state" id="mobile-search-active-state">
+      <button class="header-icon-btn" id="search-clear-btn-mobile">
+        <i class="fas fa-times"></i>
+      </button>
+      <input type="text" placeholder="Search Function Hasn't Active Yet" class="search-input" id="mobile-search-input">
+      <button class="header-icon-btn" id="search-submit-btn-mobile">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </header>
+  
+  <!-- Main Content Area where external pages will be loaded -->
+  <div class="main-content-area" id="main-content-area">
+    <div class="loader-container" id="loader-container">
+      <div class="loader-spinner"></div>
+    </div>
+    <iframe id="dynamic-content-iframe" src="" frameborder="0" allowfullscreen></iframe>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-social-icons">
+      <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://youtube.com/@kawaiipanicx?si=mM3CxzbTAX7O9igs" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+    <!-- Footer Navigation Links -->
+    <nav class="footer-nav">
+      <a data-route="/about">About</a>
+      <a data-route="/team">Team</a>
+      <a data-route="/contact">Contact</a>
+      <a data-route="/privacy">Privacy</a>
+    </nav>
+    <h1 class="footer-website-name">
+      <a data-route="/home" class="logo-text" id="logo-text">Kawaii PanicX</a>
+    </h1>
+    <p class="footer-copyright">&copy; 2023 Kawaii PanicX. All rights reserved.</p>
+  </footer>
+  
+  <script src="Js/routes.js"></script>
+  <script src="Js/index.js"></script>
+</body>
+</html>
