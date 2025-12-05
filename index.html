@@ -101,8 +101,8 @@
                     }
 
                     img.set({
-                        left: 10,
-                        top: 10,
+                        left: 50,
+                        top: 50,
                         cornerStyle: 'circle',
                         transparentCorners: false,
                         cornerColor: 'white',
@@ -113,6 +113,7 @@
                     });
                     
                     canvas.add(img);
+                    canvas.sendBackwards(img);
                     canvas.setActiveObject(img);
                 });
             };
