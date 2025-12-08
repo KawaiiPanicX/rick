@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Image Editor - Fixed Background Layer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <style>
+        body { 
+            text-align: center; 
+            background: #222; 
+            color: white; 
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        canvas { 
+            border: 1px solid #444; 
+            margin: 20px auto; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .controls { 
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-top:25px;
+        }
+        button { 
+            padding: 10px 15px; 
+            margin: 15px; 
+            cursor: pointer; 
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 30px;
+        }
+        button:hover { background: #0056b3; }
+        button.warning { background: #dc3545; }
+        button.warning:hover { background: #a71d2a; }
+    </style>
+</head>
+<body>
+
+    <h2>Header Ki dibo???😋😋😋</h2>
+    
+    <canvas id="canvas" width="920" height="920"></canvas>
+    <br>
+    <div class="controls">
+        <button onclick="addImage()">+ Add Image</button>
+        <button onclick="sendBackward()">⬇ Send Back</button> <br>
+        <button onclick="bringForward()">⬆ Bring Front</button>
+        <button class="warning" onclick="deleteObject()">✖ Delete</button>
+        <button onclick="download()">💾 Download</button>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" style="display:none">
+
+    <script>
+        const canvas = new fabric.Canvas('canvas', {
+            preserveObjectStacking: true // Important: Stops objects from jumping to front when selected
+        });
+
+        // 1. Load the Background as a "Fixed Object"
+        // Ensure you have a file named 'back.png' in the same folder
+        fabric.Image.fromURL('back2.png', function(img) {
+            img.scaleToWidth(canvas.width);
+            img.scaleToHeight(canvas.height);
+            
+            img.set({
+                left: 0,
+                top: 0,
+                selectable: false,      // User cannot select it
+                evented: false,         // User cannot click it (clicks pass through)
+                lockMovementX: true,
+                lockMovementY: true,
+                lockRotation: true,
+                lockScalingX: true,
+                lockScalingY: true,
+                hoverCursor: 'default'
+            });
+
+            canvas.add(img);
+            canvas.sendToBack(img); // Ensure it starts at the bottom
+        });
+
+        // 2. Add New Image Function
+        function addImage() {
+            document.getElementById('fileInput').click();
+        }
+
+        document.getElementById('fileInput').onchange = function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                fabric.Image.fromURL(event.target.result, function(img) {
+                    // Resize large images to fit nicely initially
+                    if(img.width > 300) {
+                        img.scaleToWidth(300);
+                    }
+
+                    img.set({
+                        left: 100,
+                        top: 100,
+                        cornerStyle: 'circle',
+                        transparentCorners: false,
+                        cornerColor: 'white',
+                        cornerStrokeColor: 'black',
+                        borderColor: 'white',
+                        cornerSize: 12,
+                        padding: 10
+                    });
+                    
+                    canvas.add(img);
+                    canvas.sendBackwards(img);
+                    canvas.setActiveObject(img);
+                });
+            };
+            reader.readAsDataURL(file);
+            e.target.value = ''; // Reset input so same file can be selected again
+        };
+
+        // 3. Layering Functions
+        function sendBackward() {
+            const obj = canvas.getActiveObject();
+            if (obj) {
+                canvas.sendBackwards(obj);
+                canvas.discardActiveObject(); // Optional: Deselect to see result clearly
+                canvas.renderAll();
+            }
+        }
+
+        function bringForward() {
+            const obj = canvas.getActiveObject();
+            if (obj) {
+                canvas.bringForward(obj);
+                canvas.discardActiveObject();
+                canvas.renderAll();
+            }
+        }
+
+        // 4. Delete Function
+        function deleteObject() {
+            const obj = canvas.getActiveObject();
+            if (obj) {
+                canvas.remove(obj);
+            }
+        }
+
+        // 5. Download Function
+        function download() {
+            // Deselect everything so the selection box doesn't appear in the download
+            canvas.discardActiveObject(); 
+            canvas.renderAll();
+
+            const link = document.createElement('a');
+            link.download = 'design_output.png';
+            link.href = canvas.toDataURL({
+                format: 'png',
+                quality: 1,
+                multiplier: 2 // Downloads at 2x resolution (high quality)
+            });
+            link.click();
+        }
+
+        // 6. Zoom functionality (Mouse Wheel)
+        canvas.on('mouse:wheel', function(opt) {
+            const delta = opt.e.deltaY;
+            let zoom = canvas.getZoom();
+            zoom *= 0.999 ** delta;
+            if (zoom > 5) zoom = 5;
+            if (zoom < 1) zoom = 1; // Prevent zooming out too far
+            
+            canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY }, zoom);
+            opt.e.preventDefault();
+            opt.e.stopPropagation();
+        });
+    </script>
+</body>
+</html>
